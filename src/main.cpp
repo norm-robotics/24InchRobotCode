@@ -86,8 +86,9 @@ void opcontrol() {
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
 		// Arcade control scheme
-		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
+		int rotation = master.get_analog(ANALOG_RIGHT_X);    // Gets amount forward/backward from right joystick
+		int YMove = master.get_analog(ANALOG_LEFT_Y);  // Gets the turn left/right from right joystick
+		int XMove = master.get_analog(ANALOG_LEFT_X);  // Gets the turn left/right from right joystick
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }
