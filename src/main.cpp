@@ -1,7 +1,14 @@
 #include "../include/main.h"
 #include "../include/XDrive.hpp"
 #include <cstdint>
+#include <vector>
 
+//Global variable definitions
+std::vector<int8_t> frontRightMotors (1, 5);
+std::vector<int8_t> rearRightMotors (2, 6);
+std::vector<int8_t> frontLeftMotors (3, 7);
+std::vector<int8_t> rearLeftMotors (4, 8);
+Xdrivebase drivebase(frontRightMotors, rearRightMotors, frontLeftMotors, rearLeftMotors, pros::MotorGears::blue);
 /**
  * A callback function for LLEMU's center button.
  *
@@ -13,6 +20,7 @@ void on_center_button() {
 	pressed = !pressed;
 	if (pressed) {
 		pros::lcd::set_text(2, "I was pressed!");
+
 	} else {
 		pros::lcd::clear_line(2);
 	}
@@ -29,7 +37,6 @@ void initialize() {
 	pros::lcd::set_text(1, "Hello PROS User!");
 
 	pros::lcd::register_btn1_cb(on_center_button);
-    Xdrivebase drivebase(1,2,3,4);
 }
 
 /**
@@ -86,9 +93,9 @@ void opcontrol() {
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
 		// Arcade control scheme
-		int rotation = master.get_analog(ANALOG_RIGHT_X);    // Gets amount forward/backward from right joystick
-		int YMove = master.get_analog(ANALOG_LEFT_Y);  // Gets the turn left/right from right joystick
-		int XMove = master.get_analog(ANALOG_LEFT_X);  // Gets the turn left/right from right joystick
-		pros::delay(20);                               // Run for 20 ms then update
+		int rotation = master.get_analog(ANALOG_LEFT_X);    // Gets amount forward/backward from right joystick
+		int YMove = -master.get_analog(ANALOG_RIGHT_Y);  // Gets the turn left/right from right joystick
+		int XMove = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
+        drivebase.moveJoystick(YMove, XMove, rotation);
 	}
 }

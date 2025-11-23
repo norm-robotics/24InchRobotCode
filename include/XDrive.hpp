@@ -1,23 +1,21 @@
 #include "../include/main.h"
+#include "pros/motor_group.hpp"
+#include "pros/motors.h"
 #ifndef XDRIVEBASE_HPP
 #define XDRIVEBASE_HPP
 
 #include <cstdint>
+#include <vector>
 
 class Xdrivebase {
 public:
-    Xdrivebase(int8_t frontRightMotorPort, int8_t frontLeftMotorPort, int8_t rearRightMotorPort, int8_t rearLeftMotorPort);
-    void moveY(int32_t joystickInputY);
-    void moveX(int32_t joystickInputX);
-    void rotate(int32_t joystickInputTurn);
+    pros::MotorGroup frontRightMotors;
+    pros::MotorGroup frontLeftMotors;
+    pros::MotorGroup rearLeftMotors;
+    pros::MotorGroup rearRightMotors;
+    Xdrivebase(std::vector<int8_t>, std::vector<int8_t>, std::vector<int8_t>, std::vector<int8_t>, pros::v5::MotorGears);
+    void moveJoystick(int32_t, int32_t, int32_t);
     void stop();
-
-private:
-    int8_t frontRightMotor;
-    int8_t frontLeftMotor;
-    int8_t rearRightMotor;
-    int8_t rearLeftMotor;
-    int8_t motors[4];
 };
 
 #endif
