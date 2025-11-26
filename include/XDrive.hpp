@@ -7,6 +7,15 @@
 #include <cstdint>
 #include <vector>
 
+enum unit{
+    rotations,
+    inches,
+    seconds
+};
+enum errors{
+    success,
+    NoUnitDefined
+};
 class Xdrivebase {
 public:
     pros::MotorGroup frontRightMotors;
@@ -14,7 +23,9 @@ public:
     pros::MotorGroup rearLeftMotors;
     pros::MotorGroup rearRightMotors;
     Xdrivebase(std::vector<int8_t>, std::vector<int8_t>, std::vector<int8_t>, std::vector<int8_t>, pros::v5::MotorGears);
+    void initialize();
     void moveJoystick(int32_t, int32_t, int32_t);
+    void moveForward(float, unit);
     void stop();
 };
 

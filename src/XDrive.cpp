@@ -16,8 +16,9 @@ Xdrivebase::Xdrivebase(
     {
         frontLeftMotors.set_reversed(true);
         rearRightMotors.set_reversed(true);
-
     }
+void Xdrivebase::initialize(){
+}
 void Xdrivebase::moveJoystick(int32_t joystickInputY, int32_t joystickInputX, int32_t joystickInputTurn){ 
     // the source of these four lines are https://www.vexforum.com/t/holonomic-drives-2-0-a-video-tutorial-by-cody/27052
     int frontRightMotorMove = joystickInputY - joystickInputX - joystickInputTurn;
@@ -31,5 +32,23 @@ void Xdrivebase::moveJoystick(int32_t joystickInputY, int32_t joystickInputX, in
     pros::delay(20);
 
 }
+void Xdrivebase::moveForward(float distance, unit units){
+    switch (units) {
+        case rotations:
+            break;
+        case inches:
+            break;
+        case seconds:
+            break;
+        default:
+            throw NoUnitDefined;
+            break;
+    }
+}
 void Xdrivebase::stop(){
+    frontLeftMotors.brake();
+    frontRightMotors.brake();
+    rearLeftMotors.brake();
+    rearRightMotors.brake();
+    pros::delay(20);
 }
