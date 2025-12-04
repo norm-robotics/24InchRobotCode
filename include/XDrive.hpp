@@ -1,6 +1,5 @@
 #include "../include/main.h"
 #include "pros/motor_group.hpp"
-#include "pros/motors.h"
 #ifndef XDRIVEBASE_HPP
 #define XDRIVEBASE_HPP
 
@@ -10,7 +9,8 @@
 enum unit{
     rotations,
     inches,
-    seconds
+    seconds,
+    degrees
 };
 enum errors{
     success,

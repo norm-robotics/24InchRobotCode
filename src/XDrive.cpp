@@ -14,8 +14,25 @@ Xdrivebase::Xdrivebase(
     rearRightMotors(rearRightMotorPorts, gearset),
     rearLeftMotors(rearLeftMotorPorts, gearset)
     {
-        frontLeftMotors.set_reversed(true);
-        rearRightMotors.set_reversed(true);
+        // Validate all motor port vectors
+        if (frontRightMotorPorts.empty()) {
+            pros::lcd::set_text(2, "ERROR: FR motors empty!");
+            throw std::runtime_error("Front Right motors vector is empty");
+        }
+        if (frontLeftMotorPorts.empty()) {
+            pros::lcd::set_text(2, "ERROR: FL motors empty!");
+            throw std::runtime_error("Front Left motors vector is empty");
+        }
+        if (rearRightMotorPorts.empty()) {
+            pros::lcd::set_text(2, "ERROR: RR motors empty!");
+            throw std::runtime_error("Rear Right motors vector is empty");
+        }
+        if (rearLeftMotorPorts.empty()) {
+            pros::lcd::set_text(2, "ERROR: RL motors empty!");
+            throw std::runtime_error("Rear Left motors vector is empty");
+        }
+        frontLeftMotors.set_reversed_all(true);
+        rearRightMotors.set_reversed_all(true);
     }
 void Xdrivebase::initialize(){
 }
@@ -35,10 +52,18 @@ void Xdrivebase::moveJoystick(int32_t joystickInputY, int32_t joystickInputX, in
 void Xdrivebase::moveForward(float distance, unit units){
     switch (units) {
         case rotations:
+            pros::lcd::set_text(3, "Rotations");
+            frontRightMotors.move_relative(360, 100);
+            frontLeftMotors.move_relative(360, 100);
+            rearRightMotors.move_relative(360, 100);
+            rearLeftMotors.move_relative(360, 100);
+            pros::delay(1000);
             break;
         case inches:
             break;
         case seconds:
+            break;
+        case degrees:
             break;
         default:
             throw NoUnitDefined;

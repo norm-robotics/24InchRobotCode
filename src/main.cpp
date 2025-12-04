@@ -3,24 +3,20 @@
 #include <cstdint>
 #include <vector>
 
-//Global variable definitions
-std::vector<int8_t> frontRightMotors (1, 5);
-std::vector<int8_t> rearRightMotors (2, 6);
-std::vector<int8_t> frontLeftMotors (3, 7);
-std::vector<int8_t> rearLeftMotors (4, 8);
-Xdrivebase drivebase(frontRightMotors, rearRightMotors, frontLeftMotors, rearLeftMotors, pros::MotorGears::blue);
+//*
 /**
  * A callback function for LLEMU's center button.
  *
  * When this callback is fired, it will toggle line 2 of the LCD text between
  * "I was pressed!" and nothing.
  */
+Xdrivebase* drivebase = nullptr;
 void on_center_button() {
 	static bool pressed = false;
 	pressed = !pressed;
 	if (pressed) {
 		pros::lcd::set_text(2, "I was pressed!");
-
+        drivebase->moveForward(1, rotations);
 	} else {
 		pros::lcd::clear_line(2);
 	}
@@ -36,7 +32,13 @@ void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
 
-	pros::lcd::register_btn1_cb(on_center_button);
+	//Global variable definitions
+    std::vector<int8_t> frontRightMotors (4, 5);
+    std::vector<int8_t> rearRightMotors (1, 2);
+    std::vector<int8_t> frontLeftMotors (6, 7);
+    std::vector<int8_t> rearLeftMotors (9, 10);
+    //std::vector<int8_t> intakeMotors (3, 8, 21); //Intake motor ports
+    drivebase = new Xdrivebase(frontRightMotors, rearRightMotors, frontLeftMotors, rearLeftMotors, pros::MotorGears::blue);
 }
 
 /**
@@ -68,7 +70,8 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -96,6 +99,6 @@ void opcontrol() {
 		int rotation = master.get_analog(ANALOG_LEFT_X);    // Gets amount forward/backward from right joystick
 		int YMove = -master.get_analog(ANALOG_RIGHT_Y);  // Gets the turn left/right from right joystick
 		int XMove = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-        drivebase.moveJoystick(YMove, XMove, rotation);
+        drivebase->moveJoystick(YMove, XMove, rotation);
 	}
 }
