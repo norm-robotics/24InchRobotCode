@@ -1,5 +1,6 @@
 #include "../include/main.h"
 #include "../include/XDrive.hpp"
+#include "../include/Intake.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -22,6 +23,8 @@ void on_center_button() {
 	}
 }
 
+Intake* intake = nullptr;
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -39,6 +42,8 @@ void initialize() {
     std::vector<int8_t> rearLeftMotors (9, 10);
     //std::vector<int8_t> intakeMotors (3, 8, 21); //Intake motor ports
     drivebase = new Xdrivebase(frontRightMotors, rearRightMotors, frontLeftMotors, rearLeftMotors, pros::MotorGears::blue);
+
+	intake = new Intake(3, 21, 8, pros::MotorGears::blue); //Intake motor ports
 }
 
 /**
@@ -100,5 +105,15 @@ void opcontrol() {
 		int YMove = -master.get_analog(ANALOG_RIGHT_Y);  // Gets the turn left/right from right joystick
 		int XMove = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
         drivebase->moveJoystick(YMove, XMove, rotation);
+
+		if(master.get_digital(DIGITAL_L1)){
+			intake->eating();
+		}
+		else if(master.get_digital(DIGITAL_L2)){
+			intake->shitting();
+		}
+		else{
+			intake->stop();
+		}
 	}
 }
