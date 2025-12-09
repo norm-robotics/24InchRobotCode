@@ -40,7 +40,6 @@ void initialize() {
     std::vector<int8_t> rearRightMotors (1, 2);
     std::vector<int8_t> frontLeftMotors (6, 7);
     std::vector<int8_t> rearLeftMotors (9, 10);
-    //std::vector<int8_t> intakeMotors (3, 8, 21); //Intake motor ports
     drivebase = new Xdrivebase(frontRightMotors, rearRightMotors, frontLeftMotors, rearLeftMotors, pros::MotorGears::blue);
 
 	intake = new Intake(3, 21, 8, pros::MotorGears::blue); //Intake motor ports
