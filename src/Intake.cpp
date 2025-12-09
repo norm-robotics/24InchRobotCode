@@ -21,14 +21,14 @@ void Intake::initialize(){
 
 
 void Intake::eating(){
-        motor1.move(127);
-        motor2.move(127);
+        motor1.move(-127);
+        motor2.move(-127);
         motor3.move(127);
 }
 
 void Intake::shitting(){
-        motor1.move(-127);
-        motor2.move(-127);
+        motor1.move(127);
+        motor2.move(127);
         motor3.move(-127);
 }
 
