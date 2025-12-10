@@ -12,6 +12,7 @@ enum unit{
     seconds,
     degrees
 };
+
 enum errors{
     success,
     NoUnitDefined
@@ -25,8 +26,12 @@ public:
     Xdrivebase(std::vector<int8_t>, std::vector<int8_t>, std::vector<int8_t>, std::vector<int8_t>, pros::v5::MotorGears);
     void initialize();
     void moveJoystick(int32_t, int32_t, int32_t);
-    void moveForward(float, unit);
+    void moveY(float, unit, int16_t);
+    void moveX(float, unit, int16_t);
+    void rotate(float, int16_t);
     void stop();
+private:
+    int maxVel;
 };
 
 #endif

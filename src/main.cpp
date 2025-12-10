@@ -4,25 +4,7 @@
 #include <cstdint>
 #include <vector>
 
-//*
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
 Xdrivebase* drivebase = nullptr;
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-        drivebase->moveForward(1, rotations);
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
-
 Intake* intake = nullptr;
 
 /**
@@ -43,8 +25,26 @@ void initialize() {
     drivebase = new Xdrivebase(frontRightMotors, rearRightMotors, frontLeftMotors, rearLeftMotors, pros::MotorGears::blue);
 
 	intake = new Intake(3, 21, 8, pros::MotorGears::blue); //Intake motor ports
+    std::cout << "This is a test" << std::endl;
+    drivebase->moveY(1, inches, 100);
+    drivebase->moveX(1, rotations, 100);
 }
-
+//*
+/**
+ * A callback function for LLEMU's center button.
+ *
+ * When this callback is fired, it will toggle line 2 of the LCD text between
+ * "I was pressed!" and nothing.
+ */
+void on_center_button() {
+	static bool pressed = false;
+	pressed = !pressed;
+	if (pressed) {
+		pros::lcd::set_text(2, "I was pressed!");
+	} else {
+		pros::lcd::clear_line(2);
+	}
+}
 /**
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When
@@ -100,9 +100,9 @@ void opcontrol() {
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
 		// Arcade control scheme
-		int rotation = master.get_analog(ANALOG_LEFT_X);    // Gets amount forward/backward from right joystick
-		int YMove = -master.get_analog(ANALOG_RIGHT_Y);  // Gets the turn left/right from right joystick
-		int XMove = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
+		int rotation = master.get_analog(ANALOG_RIGHT_X);    // Gets amount forward/backward from right joystick
+		int YMove = -master.get_analog(ANALOG_LEFT_Y);  // Gets the turn left/right from right joystick
+		int XMove = -master.get_analog(ANALOG_LEFT_X);  // Gets the turn left/right from right joystick
         drivebase->moveJoystick(YMove, XMove, rotation);
 
 		if(master.get_digital(DIGITAL_L1)){

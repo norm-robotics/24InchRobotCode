@@ -33,6 +33,17 @@ Xdrivebase::Xdrivebase(
         }
         frontLeftMotors.set_reversed_all(true);
         rearRightMotors.set_reversed_all(true);
+        switch (gearset) {
+            case pros::MotorGears::blue:
+                maxVel = 600;
+                break;
+            case pros::MotorGears::green:
+                maxVel = 200;
+                break;
+            case pros::MotorGears::red:
+                maxVel = 100;
+                break;
+        }
     }
 void Xdrivebase::initialize(){
 }
@@ -49,26 +60,102 @@ void Xdrivebase::moveJoystick(int32_t joystickInputY, int32_t joystickInputX, in
     pros::delay(20);
 
 }
-void Xdrivebase::moveForward(float distance, unit units){
+void Xdrivebase::moveY(float distance, unit units, int16_t vel){
+    float velocityF = (maxVel/100.0)*vel;
+    int16_t velocity = std::round(velocityF);
     switch (units) {
-        case rotations:
-            pros::lcd::set_text(3, "Rotations");
-            frontRightMotors.move_relative(360, 100);
-            frontLeftMotors.move_relative(360, 100);
-            rearRightMotors.move_relative(360, 100);
-            rearLeftMotors.move_relative(360, 100);
-            pros::delay(1000);
-            break;
-        case inches:
-            break;
-        case seconds:
-            break;
-        case degrees:
-            break;
+        case rotations:{
+            double rotations = 360*distance;
+            frontRightMotors.move_relative(rotations, velocity);
+            frontLeftMotors.move_relative(-rotations, velocity);
+            rearRightMotors.move_relative(rotations, velocity);
+            rearLeftMotors.move_relative(-rotations, velocity);
+            pros::delay(500*distance);
+            } break;
+        case inches: {
+            double inches = (1.0/7.5)*distance;
+            inches = 360*inches;
+            frontRightMotors.move_relative(inches, velocity);
+            frontLeftMotors.move_relative(-inches, velocity);
+            rearRightMotors.move_relative(inches, velocity);
+            rearLeftMotors.move_relative(-inches, velocity);
+            pros::delay(100*distance);
+            } break;
+        case seconds: {
+            frontRightMotors.move_velocity(velocity);
+            frontLeftMotors.move_velocity(-velocity);
+            rearRightMotors.move_velocity(velocity);
+            rearLeftMotors.move_velocity(-velocity);
+            pros::c::delay(distance*1000);
+            frontLeftMotors.brake();
+            frontRightMotors.brake();
+            rearLeftMotors.brake();
+            rearRightMotors.brake();
+            } break;
+        case degrees: {
+            frontRightMotors.move_relative(distance, velocity);
+            frontLeftMotors.move_relative(-distance, velocity);
+            rearRightMotors.move_relative(distance, velocity);
+            rearLeftMotors.move_relative(-distance, velocity);
+            } break;
         default:
             throw NoUnitDefined;
             break;
     }
+}
+void Xdrivebase::moveX(float distance, unit units, int16_t vel){
+    float velocityF = (maxVel/100.0)*vel;
+    int16_t velocity = std::round(velocityF);
+    switch (units) {
+        case rotations:{
+            double rotations = 360*distance;
+            frontRightMotors.move_relative(rotations, velocity);
+            frontLeftMotors.move_relative(-rotations, velocity);
+            rearRightMotors.move_relative(-rotations, velocity);
+            rearLeftMotors.move_relative(rotations, velocity);
+            pros::delay(500*distance);
+            } break;
+        case inches: {
+            double inches = (1.0/7.5)*distance;
+            inches = 360*inches;
+            std::cout << inches << std::endl;
+            frontRightMotors.move_relative(inches, velocity);
+            frontLeftMotors.move_relative(-inches, velocity);
+            rearRightMotors.move_relative(-inches, velocity);
+            rearLeftMotors.move_relative(inches, velocity);
+            pros::delay(100*distance);
+            } break;
+        case seconds: {
+            frontRightMotors.move_velocity(velocity);
+            frontLeftMotors.move_velocity(-velocity);
+            rearRightMotors.move_velocity(-velocity);
+            rearLeftMotors.move_velocity(velocity);
+            pros::c::delay(distance*1000);
+            frontLeftMotors.brake();
+            frontRightMotors.brake();
+            rearLeftMotors.brake();
+            rearRightMotors.brake();
+            } break;
+        case degrees: {
+            frontRightMotors.move_relative(distance, velocity);
+            frontLeftMotors.move_relative(-distance, velocity);
+            rearRightMotors.move_relative(-distance, velocity);
+            rearLeftMotors.move_relative(distance, velocity);
+            } break;
+        default:
+            throw NoUnitDefined;
+            break;
+    }
+}
+void Xdrivebase::rotate(float degrees, int16_t vel){
+    float velocityF = (maxVel/100.0)*vel;
+    int16_t velocity = std::round(velocityF);
+    degrees = (360*degrees)/45;
+    frontRightMotors.move_relative(rotations, velocity);
+    frontLeftMotors.move_relative(rotations, velocity);
+    rearRightMotors.move_relative(rotations, velocity);
+    rearLeftMotors.move_relative(rotations, velocity);
+    pros::delay(100*degrees);
 }
 void Xdrivebase::stop(){
     frontLeftMotors.brake();
