@@ -81,6 +81,16 @@ void Xdrivebase::moveY(float distance, unit units, int16_t vel){
             rearLeftMotors.move_relative(-inches, velocity);
             pros::delay(100*distance);
             } break;
+        case square: {
+            double inches = (1.0/7.5)*distance;
+            inches = 360*inches;
+            double squares = inches *24;
+            frontRightMotors.move_relative(squares, velocity);
+            frontLeftMotors.move_relative(-squares, velocity);
+            rearRightMotors.move_relative(squares, velocity);
+            rearLeftMotors.move_relative(-squares, velocity);
+            pros::delay(100*distance);
+            } break;
         case seconds: {
             frontRightMotors.move_velocity(velocity);
             frontLeftMotors.move_velocity(-velocity);
@@ -97,6 +107,7 @@ void Xdrivebase::moveY(float distance, unit units, int16_t vel){
             frontLeftMotors.move_relative(-distance, velocity);
             rearRightMotors.move_relative(distance, velocity);
             rearLeftMotors.move_relative(-distance, velocity);
+            pros::delay(10*distance);
             } break;
         default:
             throw NoUnitDefined;
@@ -125,6 +136,16 @@ void Xdrivebase::moveX(float distance, unit units, int16_t vel){
             rearLeftMotors.move_relative(inches, velocity);
             pros::delay(100*distance);
             } break;
+        case square: {
+            double inches = (1.0/7.5)*distance;
+            inches = 360*inches;
+            double squares = inches *24;
+            frontRightMotors.move_relative(squares, velocity);
+            frontLeftMotors.move_relative(-squares, velocity);
+            rearRightMotors.move_relative(squares, velocity);
+            rearLeftMotors.move_relative(-squares, velocity);
+            pros::delay(100*distance);
+            } break;
         case seconds: {
             frontRightMotors.move_velocity(velocity);
             frontLeftMotors.move_velocity(-velocity);
@@ -141,6 +162,7 @@ void Xdrivebase::moveX(float distance, unit units, int16_t vel){
             frontLeftMotors.move_relative(-distance, velocity);
             rearRightMotors.move_relative(-distance, velocity);
             rearLeftMotors.move_relative(distance, velocity);
+            pros::delay(10*distance);
             } break;
         default:
             throw NoUnitDefined;

@@ -10,7 +10,8 @@ enum unit{
     rotations,
     inches,
     seconds,
-    degrees
+    degrees,
+    square
 };
 
 enum errors{

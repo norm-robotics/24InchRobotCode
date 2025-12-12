@@ -12,7 +12,11 @@
 class Auton {
     public:
         Auton(Xdrivebase&, Intake&);
+        void BlueSide();
         void stop();
+    private:
+        Xdrivebase& drive;
+        Intake& intake;
 };
 
 #endif
