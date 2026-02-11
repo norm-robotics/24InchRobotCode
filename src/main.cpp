@@ -28,6 +28,9 @@ void initialize() {
     std::cout << "This is a test" << std::endl;
     drivebase->moveY(1, inches, 100);
     drivebase->moveX(1, rotations, 100);
+
+    pros::adi::Pneumatics descoreMech('a', false);
+    pros::adi::Pneumatics heightMech('b', false);
 }
 //*
 /**
@@ -113,6 +116,18 @@ void opcontrol() {
 		}
 		else{
 			intake->stop();
+		}
+        if(master.get_digital(DIGITAL_R2)){
+            descoreMech.extend();
+		}
+		else if(master.get_digital(DIGITAL_R1)){
+            descoreMech.retract();
+		}
+        if(master.get_digital(DIGITAL_UP)){
+            heightMech.extend();
+		}
+		else if(master.get_digital(DIGITAL_DOWN)){
+            heightMech.retract();
 		}
 	}
 }
