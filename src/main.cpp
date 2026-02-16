@@ -6,6 +6,9 @@
 
 Xdrivebase* drivebase = nullptr;
 Intake* intake = nullptr;
+pros::adi::Pneumatics descoreMech('a', false);
+pros::adi::Pneumatics heightMech('b', false);
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -25,12 +28,7 @@ void initialize() {
     drivebase = new Xdrivebase(frontRightMotors, rearRightMotors, frontLeftMotors, rearLeftMotors, pros::MotorGears::blue);
 
 	intake = new Intake(3, 21, 8, pros::MotorGears::blue); //Intake motor ports
-    std::cout << "This is a test" << std::endl;
-    drivebase->moveY(1, inches, 100);
-    drivebase->moveX(1, rotations, 100);
 
-    pros::adi::Pneumatics descoreMech('a', false);
-    pros::adi::Pneumatics heightMech('b', false);
 }
 //*
 /**
