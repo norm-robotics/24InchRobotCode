@@ -8,6 +8,7 @@ Xdrivebase* drivebase = nullptr;
 Intake* intake = nullptr;
 pros::adi::Pneumatics descoreMech('a', false);
 pros::adi::Pneumatics heightMech('b', false);
+pros::adi::Pneumatics flap('c', false);
 
 
 /**
