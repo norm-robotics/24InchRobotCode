@@ -128,5 +128,11 @@ void opcontrol() {
 		else if(master.get_digital(DIGITAL_DOWN)){
             heightMech.retract();
 		}
+        if(master.get_digital(DIGITAL_A)){
+            heightMech.extend();
+		}
+		else if(master.get_digital(DIGITAL_Y)){
+            heightMech.retract();
+		}
 	}
 }
